@@ -1,13 +1,18 @@
 package com.rental;
+import java.sql.Connection;
+import java.sql.SQLException;
+import com.rental.data.DatabaseConnection;
 
-/**
- * Hello world!
- *
- */
 public class App 
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            System.out.println("Koneksi berhasil!");
+        } catch (SQLException e) 
+        {
+            System.out.println("Gagal konek: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
