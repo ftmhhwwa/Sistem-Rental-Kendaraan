@@ -18,6 +18,16 @@ public class KendaraanFactory
             case "mobillistrik":
                 return new MobilListrik(noPolisi, merk, model, tahun, kapasitas, hargaDasar, status);
 
+            case "motor":
+                return new Motor(noPolisi, merk, model, tahun, kapasitas, hargaDasar, status);
+
+            case "motor_listrik":
+            case "motorlistrik":
+                return new MotorListrik(noPolisi, merk, model, tahun, kapasitas, hargaDasar, status);
+
+            case "bus":
+                return new Bus(noPolisi, merk, model, tahun, kapasitas, hargaDasar, status);
+
             default:
                 throw new IllegalArgumentException("Jenis kendaraan tidak dikenal: " + jenis);
         }
