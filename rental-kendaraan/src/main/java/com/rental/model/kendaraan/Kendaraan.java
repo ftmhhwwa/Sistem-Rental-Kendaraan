@@ -83,17 +83,5 @@ public abstract class Kendaraan
         this.status = status; 
     }    
 
-    // @Override
-    // public String toString() 
-    // {
-    //    System.out.println( "NO Polisi : " + noPolisi + "\n"+
-    //                         "Jenis : " + jenis + "\n"+
-    //                         "Merk : " + merk + "\n"+
-    //                         "Model : " + model + "\n"+
-    //                         "Tahun : " + tahun + "\n"+
-    //                         "Harga Dasar : " + hargaDasar + "\n"+
-    //                         "Status : " + status + "\n"
-    //     );
-    // }
 }
 
