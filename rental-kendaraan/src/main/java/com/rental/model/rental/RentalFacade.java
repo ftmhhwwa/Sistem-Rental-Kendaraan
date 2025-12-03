@@ -1,15 +1,16 @@
 package com.rental.model.rental;
 
 import com.rental.model.kendaraan.Kendaraan;
+import com.rental.repository.*;
 
 public class RentalFacade 
 {    
-    // private KendaraanRepository kendaraanRepo;
+    private KendaraanRepository kendaraanRepo;
     // private RentalRepository rentalRepo;
 
     public RentalFacade() 
     {
-        // kendaraanRepo = new KendaraanRepository();
+        kendaraanRepo = new KendaraanRepository();
         // rentalRepo = new RentalRepository();
     }
 
@@ -25,10 +26,10 @@ public class RentalFacade
 
         // Update status kendaraan
         kendaraan.setStatus("tidak tersedia");
-        //kendaraanRepo.updateStatus(kendaraan.getId(), "tidak tersedia");
+        kendaraanRepo.updateStatus(kendaraan.getNoPolisi(), "tidak tersedia");
 
         // Save rental ke database
-        //rentalRepo.save(rental);
+        // rentalRepo.save(rental);
 
         System.out.println("Sewa kendaraan berhasil diproses");
         return true;
@@ -43,7 +44,7 @@ public class RentalFacade
 
         // Update status kendaraan → tersedia kembali
         kendaraan.setStatus("tersedia");
-        //kendaraanRepo.updateStatus(kendaraan.getId(), "tersedia");
+        kendaraanRepo.updateStatus(kendaraan.getNoPolisi(), "tersedia");
 
         // Tandai rental selesai
         //rentalRepo.selesaikanRental(rental.getId());
