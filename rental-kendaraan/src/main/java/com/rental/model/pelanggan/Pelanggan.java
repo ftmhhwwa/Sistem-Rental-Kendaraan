@@ -6,25 +6,22 @@ public class Pelanggan {
     private String nik;
     private String noHP;
     private String alamat;
-    private String email;
 
     public Pelanggan() { }
 
-    public Pelanggan(int id, String nama, String nik, String noHP, String alamat, String email) {
+    public Pelanggan(int id, String nama, String nik, String noHP, String alamat) {
         this.id = id;
         this.nama = nama;
         this.nik = nik;
         this.noHP = noHP;
         this.alamat = alamat;
-        this.email = email;
     }
 
-    public Pelanggan(String nama, String nik, String noHP, String alamat, String email) {
+    public Pelanggan(String nama, String nik, String noHP, String alamat) {
         this.nama = nama;
         this.nik = nik;
         this.noHP = noHP;
         this.alamat = alamat;
-        this.email = email;
     }
 
     public int getId() {
@@ -65,23 +62,5 @@ public class Pelanggan {
 
     public void setAlamat(String alamat) {
         this.alamat = alamat;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public boolean isValid() {
-        return nama != null && !nama.trim().isEmpty() &&
-               noHP != null && !noHP.trim().isEmpty();
-    }
-
-    @Override
-    public String toString() {
-        return nama + " (" + noHP + ")";
     }
 }
