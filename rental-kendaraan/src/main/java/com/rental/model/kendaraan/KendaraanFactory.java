@@ -2,7 +2,7 @@ package com.rental.model.kendaraan;
 
 public class KendaraanFactory 
 {
-     public static Kendaraan createKendaraan(String jenis,int noPolisi,String merk,String model,int tahun,double hargaDasar,String status) 
+     public static Kendaraan createKendaraan(String jenis,String noPolisi,String merk,String model,int tahun,double hargaDasar,String status) 
      {
         jenis = jenis.toLowerCase();
 

@@ -21,7 +21,7 @@ public class RentalRepository {
              PreparedStatement pst = conn.prepareStatement(sql)) {
 
             pst.setInt(1, rental.getPelanggan().getId());
-            pst.setInt(2, rental.getKendaraan().getNoPolisi());
+            pst.setString(2, rental.getKendaraan().getNoPolisi());
             pst.setObject(3, rental.getTglPinjam());
             pst.setObject(4, rental.getTglKembali());
             pst.setDouble(5, rental.getHargaTotal());
@@ -42,7 +42,7 @@ public class RentalRepository {
             if (rs.next()) {
 
                 Pelanggan p = pelangganRepo.findById(rs.getInt("pelanggan_id"));
-                Kendaraan k = kendaraanRepo.findByNoPolisi(rs.getInt("no_polisi"));
+                Kendaraan k = kendaraanRepo.findByNoPolisi(rs.getString("no_polisi"));
 
                 return new Rental(
                     rs.getInt("id"),

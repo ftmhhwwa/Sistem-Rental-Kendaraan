@@ -14,7 +14,7 @@ public class KendaraanRepository
     private Kendaraan mapResultSetToKendaraan(ResultSet rs) throws SQLException 
     {
         // Ambil data umum dari kolom
-        int noPolisi = rs.getInt("no_polisi");
+        String noPolisi = rs.getString("no_polisi");
         String jenis = rs.getString("jenis");
         String merk = rs.getString("merk");
         String model = rs.getString("model");
@@ -35,7 +35,7 @@ public class KendaraanRepository
         {
             String jenis = kendaraan.getClass().getSimpleName();
             
-            pstmt.setInt(1, kendaraan.getNoPolisi());
+            pstmt.setString(1, kendaraan.getNoPolisi());
             pstmt.setString(2, jenis); 
             pstmt.setString(3, kendaraan.getMerk());
             pstmt.setString(4, kendaraan.getModel());
@@ -79,7 +79,7 @@ public class KendaraanRepository
     }
 
     /*Mengambil data Kendaraan berdasarkan nomor polisi (Read One).*/
-    public Kendaraan findByNoPolisi(int noPolisi) 
+    public Kendaraan findByNoPolisi(String noPolisi) 
     {
         Kendaraan kendaraan = null;
         String sql = "SELECT * FROM kendaraan WHERE no_polisi = ?";
@@ -87,7 +87,7 @@ public class KendaraanRepository
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) 
         {
-            pstmt.setInt(1, noPolisi);
+            pstmt.setString(1, noPolisi);
             
             try (ResultSet rs = pstmt.executeQuery()) 
             {
@@ -119,7 +119,7 @@ public class KendaraanRepository
             pstmt.setInt(3, kendaraan.getTahun());
             pstmt.setDouble(5, kendaraan.getHargaDasar());
             pstmt.setString(6, kendaraan.getStatus());
-            pstmt.setInt(7, kendaraan.getNoPolisi());
+            pstmt.setString(7, kendaraan.getNoPolisi());
 
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -130,7 +130,7 @@ public class KendaraanRepository
     }
     
     /*Memperbarui hanya status ketersediaan Kendaraan. */
-    public boolean updateStatus(int noPolisi, String newStatus) 
+    public boolean updateStatus(String noPolisi, String newStatus) 
     {
         String sql = "UPDATE kendaraan SET status = ? WHERE no_polisi = ?";
         
@@ -138,7 +138,7 @@ public class KendaraanRepository
              PreparedStatement pstmt = conn.prepareStatement(sql)) 
         {
             pstmt.setString(1, newStatus);
-            pstmt.setInt(2, noPolisi);
+            pstmt.setString(2, noPolisi);
 
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -149,14 +149,14 @@ public class KendaraanRepository
     }
 
     /*Menghapus data Kendaraan dari database (Delete).*/
-    public boolean delete(int noPolisi) 
+    public boolean delete(String noPolisi) 
     {
         String sql = "DELETE FROM kendaraan WHERE no_polisi = ?";
         
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) 
         {
-            pstmt.setInt(1, noPolisi);
+            pstmt.setString(1, noPolisi);
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
             System.err.println("Gagal menghapus data kendaraan: " + e.getMessage());
