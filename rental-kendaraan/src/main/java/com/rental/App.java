@@ -2,6 +2,8 @@ package com.rental;
 import java.sql.Connection;
 import java.sql.SQLException;
 import com.rental.data.DatabaseConnection;
+import javax.swing.SwingUtilities;
+import com.rental.view.MainView;
 
 public class App 
 {
@@ -14,5 +16,7 @@ public class App
             System.out.println("Gagal konek: " + e.getMessage());
             e.printStackTrace();
         }
+
+        SwingUtilities.invokeLater(() -> new MainView().setVisible(true));
     }
 }
