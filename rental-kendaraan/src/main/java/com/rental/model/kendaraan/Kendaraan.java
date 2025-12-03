@@ -7,18 +7,16 @@ public abstract class Kendaraan
     private String merk;
     private String model;
     private int tahun;
-    private int kapasitas;
     private double hargaDasar;
     private String status;
 
     //konstruktor-----------------------------------------------
-    public Kendaraan(int noPolisi, String merk, String model, int tahun, int kapasitas, double hargaDasar, String status )
+    public Kendaraan(int noPolisi, String merk, String model, int tahun, double hargaDasar, String status )
     {
         this.noPolisi = noPolisi;
         this.merk = merk;
         this.model = model;
         this.tahun = tahun;
-        this.kapasitas = kapasitas;
         this.hargaDasar = hargaDasar;
         this.status = "tersedia";
     }
@@ -44,10 +42,6 @@ public abstract class Kendaraan
     {
         return tahun;
     }
-    public int getKapasitas()
-    {
-        return kapasitas;
-    }
     public double getHargaDasar()
     {
         return hargaDasar;
@@ -69,10 +63,6 @@ public abstract class Kendaraan
     public void setTahun(int tahun) 
     {
          this.tahun = tahun; 
-    }
-    public void setKapasitas(int kapasitas) 
-    {
-         this.kapasitas = kapasitas; 
     }
     public void setHargaDasar(double hargaDasar) 
     {
