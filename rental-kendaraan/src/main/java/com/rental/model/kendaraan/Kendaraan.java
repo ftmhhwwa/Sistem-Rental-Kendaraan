@@ -3,7 +3,7 @@ package com.rental.model.kendaraan;
 public abstract class Kendaraan 
 {
     //atribut-----------------------------------------------
-    private int noPolisi;
+    private String noPolisi;
     private String merk;
     private String model;
     private int tahun;
@@ -11,7 +11,7 @@ public abstract class Kendaraan
     private String status;
 
     //konstruktor-----------------------------------------------
-    public Kendaraan(int noPolisi, String merk, String model, int tahun, double hargaDasar, String status )
+    public Kendaraan(String noPolisi, String merk, String model, int tahun, double hargaDasar, String status )
     {
         this.noPolisi = noPolisi;
         this.merk = merk;
@@ -22,7 +22,7 @@ public abstract class Kendaraan
     }
 
     ///getter-----------------------------------------------
-    public int getNoPolisi()
+    public String getNoPolisi()
     {
         return noPolisi;
     }
@@ -48,11 +48,11 @@ public abstract class Kendaraan
     }
 
     //setter-----------------------------------------------
-    public void setId(int noPolisi)
+    public void setNoPolisi(String noPolisi)
     {
          this.noPolisi = noPolisi; 
     }
-    public void setTipe(String merk) 
+    public void setMerk(String merk) 
     {
         this.merk = merk; 
     }
