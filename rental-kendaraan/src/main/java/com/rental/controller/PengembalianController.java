@@ -41,7 +41,7 @@ public class PengembalianController
                 int row = view.getTableRental().rowAtPoint(e.getPoint());
                 
                 // Cek apakah kolom yang diklik adalah kolom tombol "Status" (Index 6)
-                if (column == 5 && row >= 0) { 
+                if (column == 6 && row >= 0) { 
                     // Panggil logika penyelesaian rental
                     view.getTableRental().editCellAt(row, column);
                     
@@ -51,7 +51,6 @@ public class PengembalianController
                 }
             }
         });
-        //view.getButton().addActionListener(e -> selesaikanRental());
     }
 
     public void loadActiveRentals() {

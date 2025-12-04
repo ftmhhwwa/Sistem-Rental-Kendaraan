@@ -50,7 +50,6 @@ public class RentalController {
         view.getBtnRental().addActionListener(e -> prosesRental());
         // Listener saat NIK diisi/enter: Cek keberadaan pelanggan
         view.getTxtNik().addActionListener(e -> checkNik());
-        //view.getTxtNik().addFocusLost(e -> checkNik());
     }
 
     public void loadAvailableKendaraan() {
@@ -150,7 +149,6 @@ public class RentalController {
             Kendaraan kendaraan = availableKendaraanMap.get(selectedCarLabel);
             if (kendaraan == null) throw new Exception("Kendaraan tidak valid/tersedia.");
             
-            // Buat objek Rental dummy hanya untuk perhitungan durasi
             Rental dummyRental = new Rental(0, kendaraan, tglMulai, tglSelesai, null, 0.0, strategyName);
             HargaStrategy strategy = getStrategy(strategyName);
             
@@ -185,32 +183,32 @@ public class RentalController {
         
         try 
         {
-            double hargaTotal = Double.parseDouble(view.getLblHargaTotal().getText()); // Ambil harga yang sudah dihitung
+            double hargaTotal = Double.parseDouble(view.getLblHargaTotal().getText()); 
             LocalDate tglMulai = LocalDate.parse(tglMulaiStr, DATE_FORMAT);
             LocalDate tglSelesai = LocalDate.parse(tglSelesaiStr, DATE_FORMAT);
 
-            // 1. Dapatkan atau Simpan Pelanggan
+            // Dapatkan atau Simpan Pelanggan
             Pelanggan pelanggan = pelangganRepo.findByNik(nik);
             if (pelanggan == null) 
             {
-                // Pelanggan baru, simpan dan dapatkan ID (melalui perbaikan di PelangganRepository)
+                // Pelanggan baru, simpan dan dapatkan ID 
                 pelanggan = new Pelanggan(nama, nik, noHp, alamat);
                 pelangganRepo.insert(pelanggan); 
             }
             
-            // 2. Dapatkan Kendaraan
+            // Dapatkan Kendaraan
             Kendaraan kendaraan = availableKendaraanMap.get(selectedCarLabel);
             if (kendaraan == null) throw new Exception("Kendaraan tidak ditemukan atau sudah tidak tersedia.");
             
-            // 3. Buat objek Rental
+            // Buat objek Rental
             Rental newRental = new Rental(0, kendaraan, tglMulai, tglSelesai, pelanggan, hargaTotal, strategyName);
             
-            // 4. Proses Sewa menggunakan Facade (Simpan Rental & Update Status Kendaraan)
+            // Proses Sewa menggunakan Facade (Simpan Rental & Update Status Kendaraan)
             if (rentalFacade.prosesSewa(newRental)) 
             {
                 JOptionPane.showMessageDialog(view, "Rental berhasil diproses! Status kendaraan diupdate.", "Sukses", JOptionPane.INFORMATION_MESSAGE);
                 
-                // 5. Update View Lain
+                // Update View Lain
                 if (dashboardController != null) {
                     dashboardController.loadData(); // Refresh Dashboard (statistik dan tabel kendaraan)
                 }

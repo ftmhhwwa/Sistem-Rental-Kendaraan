@@ -64,9 +64,7 @@ public class FormRentalView extends JPanel
         form.add(txtTglSelesai);
 
         form.add(new JLabel("Total Harga"));
-        // form.add(new JTextField()); 
         
-        // form.add(new JLabel(""));
         JPanel hargaPanel = new JPanel(new BorderLayout());
         hargaPanel.add(lblHargaTotal, BorderLayout.WEST);
         hargaPanel.add(btnHitungHarga, BorderLayout.EAST);

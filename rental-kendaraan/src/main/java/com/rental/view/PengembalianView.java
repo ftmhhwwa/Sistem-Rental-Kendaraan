@@ -7,7 +7,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
-import java.awt.*;import java.awt.event.ActionEvent;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class PengembalianView extends JPanel {
             // Membuat kolom "Status" bisa berisi objek non-string seperti JButton
             @Override
             public Class<?> getColumnClass(int columnIndex) {
-                if (columnIndex == 6) { // Kolom Status (indeks 7)
+                if (columnIndex == 6) { 
                     return JButton.class;
                 }
                 return super.getColumnClass(columnIndex);
@@ -57,7 +58,6 @@ public class PengembalianView extends JPanel {
         statusColumn.setMaxWidth(120);
         p.add(new JScrollPane(tableRental), BorderLayout.CENTER);
 
-        //JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         return p;
     }
 
@@ -68,14 +68,12 @@ public class PengembalianView extends JPanel {
         public ButtonRenderer() {
             setOpaque(true);
             setText("Dikembalikan");
-            setBackground(new Color(46, 204, 113)); // Warna hijau
+            setBackground(new Color(46, 204, 113)); 
             setForeground(Color.WHITE);
         }
 
         @Override
-        public Component getTableCellRendererComponent(JTable table, Object value,
-                                                       boolean isSelected, boolean hasFocus, 
-                                                       int row, int column) {
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             return this;
         }
     }
@@ -85,30 +83,25 @@ public class PengembalianView extends JPanel {
         private String label;
         private boolean isPushed;
         
-        // ID Rental yang akan diproses saat tombol ini diklik
-        //private int rentalId; 
-        
         public ButtonEditor(JTextField tf) {
             super(tf);
-            setClickCountToStart(1); // Mulai edit setelah 1 klik
+            setClickCountToStart(1);
             button = new JButton();
             button.setOpaque(true);
             button.setBackground(new Color(46, 204, 113));
             button.setForeground(Color.WHITE);
-            // button.addActionListener(new ActionListener() {
-            //     @Override
-            //     public void actionPerformed(ActionEvent e) {
-            //         // Method ini hanya memicu event stopCellEditing
-            //         fireEditingStopped();
-            //     }
-            // });
+
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Method ini hanya memicu event stopCellEditing
+                    fireEditingStopped();
+                }
+            });
         }
-        
-        // public JButton getButton() {return button;}
 
         @Override
-        public Component getTableCellEditorComponent(JTable table, Object value,
-                                                     boolean isSelected, int row, int column) {
+        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
             if (isSelected) {
                 button.setForeground(table.getSelectionForeground());
                 button.setBackground(table.getSelectionBackground());
@@ -125,10 +118,9 @@ public class PengembalianView extends JPanel {
         @Override
         public Object getCellEditorValue() {
             if (isPushed) {
-                // Return nilai yang membuat Controller tahu aksi telah dilakukan
             }
             isPushed = false;
-            return label; // Kembalikan label sebagai nilai sel
+            return label; 
         }
     }
 }

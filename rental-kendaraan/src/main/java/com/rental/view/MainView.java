@@ -1,5 +1,9 @@
 package com.rental.view;
 
+import com.rental.controller.DashboardController;
+import com.rental.controller.PengembalianController;
+import com.rental.controller.RentalController;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -36,6 +40,16 @@ public class MainView extends JFrame {
         mainPanel.add(dashboardView, "dashboard");
         mainPanel.add(rentalView, "rental");
         mainPanel.add(pengembalianView, "pengembalian");
+
+        // --- Inisialisasi Controller ---
+        DashboardController dashboardController = new DashboardController(dashboardView);
+        RentalController rentalController = new RentalController(rentalView); 
+        PengembalianController pengembalianController = new PengembalianController(pengembalianView); 
+        
+        // Hubungkan Controller agar bisa refresh dashboard
+        rentalController.setDashboardController(dashboardController); 
+        pengembalianController.setDashboardController(dashboardController);
+        rentalController.setPengembalianController(pengembalianController);
 
         add(mainPanel, BorderLayout.CENTER);
 
@@ -91,8 +105,8 @@ public class MainView extends JFrame {
         btn.setOpaque(false);
         
         btn.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(Color.WHITE, 1), // Border luar putih ketebalan 1
-                BorderFactory.createEmptyBorder(10, 20, 10, 20) // Padding dalam (atas, kiri, bawah, kanan)
+                BorderFactory.createLineBorder(Color.WHITE, 1), 
+                BorderFactory.createEmptyBorder(10, 20, 10, 20) 
         ));
 
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -109,9 +123,5 @@ public class MainView extends JFrame {
                 "About",
                 JOptionPane.INFORMATION_MESSAGE
         );
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new MainView().setVisible(true));
     }
 }
