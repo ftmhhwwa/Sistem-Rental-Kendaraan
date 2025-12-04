@@ -5,26 +5,29 @@ import java.awt.*;
 
 public class MainView extends JFrame {
 
-    private CardLayout layout;
+    private CardLayout cardLayout;
     private JPanel mainPanel;
 
-    public DashboardView dashboardView;
-    public FormRentalView rentalView;
-    public PengembalianView pengembalianView;
-
-    public JButton menuDashboard; //
-    public JButton menuRental; //
-    public JButton menuPengembalian; //
+    private DashboardView dashboardView;
+    private FormRentalView rentalView;
+    private PengembalianView pengembalianView;
 
     public MainView() {
         setTitle("Sistem Rental Kendaraan");
-        setSize(1100, 650);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(1200, 700);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        layout = new CardLayout();
-        mainPanel = new JPanel(layout);
+        // ----- HEADER -----
+        add(createHeader(), BorderLayout.NORTH);
+
+        // ----- SIDEBAR -----
+        add(createSidebar(), BorderLayout.WEST);
+
+        // ----- MAIN CONTENT -----
+        cardLayout = new CardLayout();
+        mainPanel = new JPanel(cardLayout);
 
         dashboardView = new DashboardView();
         rentalView = new FormRentalView();
@@ -34,43 +37,81 @@ public class MainView extends JFrame {
         mainPanel.add(rentalView, "rental");
         mainPanel.add(pengembalianView, "pengembalian");
 
-        JPanel sidebar = createSidebar();
-        
-        add(sidebar, BorderLayout.WEST); //
         add(mainPanel, BorderLayout.CENTER);
+
+        cardLayout.show(mainPanel, "dashboard");
+    }
+
+    private JPanel createHeader() {
+        JPanel header = new JPanel(new BorderLayout());
+        header.setBackground(new Color(245, 245, 245));
+        header.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+
+        JLabel title = new JLabel("Sistem Rental Kendaraan");
+        title.setFont(new Font("Segoe UI", Font.BOLD, 20));
+
+        JPanel rightButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        rightButtons.setOpaque(false);
+
+        JButton aboutBtn = new JButton("About");
+        JButton exitBtn = new JButton("Exit");
+
+        aboutBtn.addActionListener(e -> showAbout());
+        exitBtn.addActionListener(e -> System.exit(0));
+
+        rightButtons.add(aboutBtn);
+        rightButtons.add(exitBtn);
+
+        header.add(title, BorderLayout.WEST);
+        header.add(rightButtons, BorderLayout.EAST);
+
+        return header;
     }
 
     private JPanel createSidebar() {
-        JPanel p = new JPanel(new GridLayout(10, 1));
-        p.setBackground(new Color(44, 62, 80));
-        p.setPreferredSize(new Dimension(200, 0));
+        JPanel sidebar = new JPanel(new GridLayout(5, 1, 0, 15));
+        sidebar.setBackground(new Color(44, 62, 80));
+        sidebar.setPreferredSize(new Dimension(200, 0));
+        sidebar.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
 
-        menuDashboard = new JButton("Dashboard");
-        menuRental = new JButton("Rental");
-        menuPengembalian = new JButton("Pengembalian");
+        sidebar.add(createSidebarButton("Dashboard", "dashboard"));
+        sidebar.add(createSidebarButton("Rental Kendaraan", "rental"));
+        sidebar.add(createSidebarButton("Pengembalian", "pengembalian"));
 
-        menuDashboard.addActionListener(e -> layout.show(mainPanel, "dashboard"));
-        menuRental.addActionListener(e -> layout.show(mainPanel, "rental"));
-        menuPengembalian.addActionListener(e -> layout.show(mainPanel, "pengembalian"));
-
-        style(menuDashboard);
-        style(menuRental);
-        style(menuPengembalian);
-
-        p.add(menuDashboard);
-        p.add(menuRental);
-        p.add(menuPengembalian);
-
-        return p;
+        return sidebar;
     }
 
-    private void style(JButton btn) {
-        btn.setForeground(Color.WHITE);
-        btn.setBackground(new Color(52, 73, 94));
+    private JButton createSidebarButton(String text, String cardName) {
+        JButton btn = new JButton(text);
         btn.setFocusPainted(false);
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
+
+        btn.setForeground(Color.WHITE);
+        btn.setContentAreaFilled(false);
+        btn.setOpaque(false);
+        
+        btn.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.WHITE, 1), // Border luar putih ketebalan 1
+                BorderFactory.createEmptyBorder(10, 20, 10, 20) // Padding dalam (atas, kiri, bawah, kanan)
+        ));
+
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        btn.addActionListener(e -> cardLayout.show(mainPanel, cardName));
+
+        return btn;
     }
 
-    public void showPage(String name) {
-        layout.show(mainPanel, name);
+    private void showAbout() {
+        JOptionPane.showMessageDialog(
+                this,
+                "Aplikasi dibuat oleh:\n Tim Panconglumerrr\n Alda Pujama (241511066)\n Fatimah Hawwa Alkhansa (241511074)",
+                "About",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new MainView().setVisible(true));
     }
 }
