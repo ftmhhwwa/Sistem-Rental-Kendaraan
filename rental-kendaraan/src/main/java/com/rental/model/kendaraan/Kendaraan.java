@@ -18,7 +18,7 @@ public abstract class Kendaraan
         this.model = model;
         this.tahun = tahun;
         this.hargaDasar = hargaDasar;
-        this.status = "tersedia";
+        this.status = status;
     }
 
     ///getter-----------------------------------------------

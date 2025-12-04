@@ -11,7 +11,7 @@ public class KendaraanFactory
             case "mobil":
                 return new Mobil(noPolisi, merk, model, tahun, hargaDasar, status);
 
-            case "truk":
+            case "truck":
                 return new Truck(noPolisi, merk, model, tahun, hargaDasar, status);
 
             case "mobil_listrik":

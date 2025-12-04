@@ -8,7 +8,7 @@ import java.sql.*;
 public class PelangganRepository {
 
     public void insert(Pelanggan p) throws SQLException {
-        String sql = "INSERT INTO pelanggan (nama, nik, noHP, alamat) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO pelanggan (nama, nik, no_hp, alamat) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pst = conn.prepareStatement(sql)) {
@@ -22,7 +22,7 @@ public class PelangganRepository {
     }
 
     public Pelanggan findById(int id) throws SQLException {
-        String sql = "SELECT id, nama, nik, noHP, alamat FROM pelanggan WHERE id = ?";
+        String sql = "SELECT id, nama, nik, no_hp, alamat FROM pelanggan WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pst = conn.prepareStatement(sql)) {
@@ -35,7 +35,29 @@ public class PelangganRepository {
                     rs.getInt("id"),
                     rs.getString("nama"),
                     rs.getString("nik"),
-                    rs.getString("noHP"),
+                    rs.getString("no_hp"),
+                    rs.getString("alamat")
+                );
+            }
+        }
+        return null;
+    }
+
+    public Pelanggan findByNik(String nik) throws SQLException {
+        String sql = "SELECT id, nama, nik, no_hp, alamat FROM pelanggan WHERE nik = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pst = conn.prepareStatement(sql)) {
+
+            pst.setString(1, nik);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                return new Pelanggan(
+                    rs.getInt("id"),
+                    rs.getString("nama"),
+                    rs.getString("nik"),
+                    rs.getString("no_hp"),
                     rs.getString("alamat")
                 );
             }

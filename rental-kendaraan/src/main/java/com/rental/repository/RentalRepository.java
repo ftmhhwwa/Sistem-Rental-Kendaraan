@@ -7,6 +7,8 @@ import com.rental.model.rental.Rental;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RentalRepository {
 
@@ -56,5 +58,53 @@ public class RentalRepository {
             }
         }
         return null;
+    }
+
+    public List<Rental> findAll() throws SQLException 
+    {
+        List<Rental> rentalList = new ArrayList<>();
+        String sql = "SELECT * FROM rental ORDER BY tgl_pinjam DESC"; 
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) 
+            {
+                Pelanggan p = pelangganRepo.findById(rs.getInt("pelanggan_id"));
+                Kendaraan k = kendaraanRepo.findByNoPolisi(rs.getString("no_polisi"));
+                
+                if (p != null && k != null) {
+                     rentalList.add(new Rental(
+                        rs.getInt("id"),
+                        k,
+                        rs.getObject("tgl_pinjam", LocalDate.class),
+                        rs.getObject("tgl_kembali", LocalDate.class),
+                        p,
+                        rs.getDouble("harga_total"),
+                        rs.getString("strategy_name")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Gagal memuat data rental: " + e.getMessage());
+            throw e;
+        }
+        return rentalList;
+    }
+
+    /*Menghapus data rental yang sudah selesai (sesuai permintaan).*/
+    public boolean deleteRental(int rentalId) throws SQLException {
+        String sql = "DELETE FROM rental WHERE id = ?";
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pst = conn.prepareStatement(sql)) {
+
+            pst.setInt(1, rentalId);
+            return pst.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Gagal menghapus data rental: " + e.getMessage());
+            throw e;
+        }
     }
 }

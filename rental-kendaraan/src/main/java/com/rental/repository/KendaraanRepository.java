@@ -26,7 +26,7 @@ public class KendaraanRepository
     }
     
     /* Menyimpan data Kendaraan baru ke database (Create).*/
-    public Kendaraan save(Kendaraan kendaraan) 
+    public boolean save(Kendaraan kendaraan) 
     {
         String sql = "INSERT INTO kendaraan (no_polisi, jenis, merk, model, tahun, harga_dasar, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
         
@@ -40,18 +40,16 @@ public class KendaraanRepository
             pstmt.setString(3, kendaraan.getMerk());
             pstmt.setString(4, kendaraan.getModel());
             pstmt.setInt(5, kendaraan.getTahun());
-            pstmt.setDouble(7, kendaraan.getHargaDasar());
-            pstmt.setString(8, kendaraan.getStatus());
+            pstmt.setDouble(6, kendaraan.getHargaDasar());
+            pstmt.setString(7, kendaraan.getStatus());
 
-            int affectedRows = pstmt.executeUpdate();
-            if (affectedRows > 0) {
-                System.out.println("Kendaraan dengan No Polisi " + kendaraan.getNoPolisi() + " berhasil disimpan.");
-            }
+            return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
             System.err.println("Gagal menyimpan data kendaraan: " + e.getMessage());
             e.printStackTrace();
+            return false;
         }
-        return kendaraan;
+        
     }
 
     /*Mengambil semua data Kendaraan dari database (Read All).*/
@@ -73,6 +71,29 @@ public class KendaraanRepository
             e.printStackTrace();
         } catch (IllegalArgumentException e) {
              System.err.println("Error saat membuat objek kendaraan: " + e.getMessage());
+             e.printStackTrace();
+        }
+        return kendaraanList;
+    }
+
+    public List<Kendaraan> findAllTersedia() 
+    {
+        List<Kendaraan> kendaraanList = new ArrayList<>();
+        String sql = "SELECT * FROM kendaraan WHERE status = 'tersedia' ORDER BY no_polisi";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) 
+        {
+            while (rs.next()) 
+            {
+                kendaraanList.add(mapResultSetToKendaraan(rs));
+            }
+        } catch (SQLException e) {
+            System.err.println("Gagal mengambil data kendaraan tersedia: " + e.getMessage());
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+             System.err.println("Error saat membuat objek kendaraan tersedia: " + e.getMessage());
              e.printStackTrace();
         }
         return kendaraanList;
@@ -117,9 +138,9 @@ public class KendaraanRepository
             pstmt.setString(1, kendaraan.getMerk());
             pstmt.setString(2, kendaraan.getModel());
             pstmt.setInt(3, kendaraan.getTahun());
-            pstmt.setDouble(5, kendaraan.getHargaDasar());
-            pstmt.setString(6, kendaraan.getStatus());
-            pstmt.setString(7, kendaraan.getNoPolisi());
+            pstmt.setDouble(4, kendaraan.getHargaDasar());
+            pstmt.setString(5, kendaraan.getStatus());
+            pstmt.setString(6, kendaraan.getNoPolisi());
 
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {

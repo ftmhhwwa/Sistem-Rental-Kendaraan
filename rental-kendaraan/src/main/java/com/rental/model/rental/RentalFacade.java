@@ -1,21 +1,23 @@
 package com.rental.model.rental;
 
+import java.sql.SQLException;
+
 import com.rental.model.kendaraan.Kendaraan;
 import com.rental.repository.*;
 
 public class RentalFacade 
 {    
     private KendaraanRepository kendaraanRepo;
-    // private RentalRepository rentalRepo;
+    private RentalRepository rentalRepo;
 
     public RentalFacade() 
     {
         kendaraanRepo = new KendaraanRepository();
-        // rentalRepo = new RentalRepository();
+        rentalRepo = new RentalRepository();
     }
 
-    public boolean prosesSewa(Rental rental) {
-
+    public boolean prosesSewa(Rental rental)
+    {
         Kendaraan kendaraan = rental.getKendaraan();
 
         // Cek ketersediaan
@@ -23,33 +25,32 @@ public class RentalFacade
             System.out.println("Kendaraan tidak tersedia untuk disewa");
             return false;
         }
-
-        // Update status kendaraan
-        kendaraan.setStatus("tidak tersedia");
-        kendaraanRepo.updateStatus(kendaraan.getNoPolisi(), "tidak tersedia");
-
-        // Save rental ke database
-        // rentalRepo.save(rental);
-
-        System.out.println("Sewa kendaraan berhasil diproses");
-        return true;
+        try{
+            // Update status kendaraan
+            kendaraan.setStatus("tidak tersedia");
+            kendaraanRepo.updateStatus(kendaraan.getNoPolisi(), "tidak tersedia");
+            rentalRepo.insert(rental);
+            System.out.println("Sewa kendaraan berhasil diproses");
+            return true;
+        }catch (Exception e) {
+            System.err.println("Gagal menyimpan rental: " + e.getMessage());
+            return false;
+        }
     }
 
-    /**
-     * Proses pengembalian kendaraan
-     */
-    public boolean prosesPengembalian(Rental rental) {
-
+    /*Proses pengembalian kendaraan*/
+    public boolean prosesPengembalian(Rental rental) 
+    {
         Kendaraan kendaraan = rental.getKendaraan();
-
-        // Update status kendaraan → tersedia kembali
-        kendaraan.setStatus("tersedia");
-        kendaraanRepo.updateStatus(kendaraan.getNoPolisi(), "tersedia");
-
-        // Tandai rental selesai
-        //rentalRepo.selesaikanRental(rental.getId());
-
-        System.out.println("Pengembalian berhasil diproses");
-        return true;
+        try {
+            kendaraan.setStatus("tersedia");
+            kendaraanRepo.updateStatus(kendaraan.getNoPolisi(), "tersedia");
+            rentalRepo.deleteRental(rental.getId());
+            System.out.println("Pengembalian berhasil diproses");
+            return true;
+        }catch (SQLException e) {
+            System.err.println("Gagal menyelesaikan pengembalian: " + e.getMessage());
+            return false;
+        }
     }
 }
