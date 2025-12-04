@@ -11,13 +11,24 @@ public class PelangganRepository {
         String sql = "INSERT INTO pelanggan (nama, nik, no_hp, alamat) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pst = conn.prepareStatement(sql)) {
+             PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pst.setString(1, p.getNama());
             pst.setString(2, p.getNik());
             pst.setString(3, p.getNoHP());
             pst.setString(4, p.getAlamat());
             pst.executeUpdate();
+
+            try (ResultSet rs = pst.getGeneratedKeys()) 
+            {
+                if (rs.next()) 
+                {
+                    int generatedId = rs.getInt(1);
+                    p.setId(generatedId); 
+                }else{
+                    throw new SQLException("Gagal mengambil ID pelanggan yang baru dibuat.");
+                }
+            }  
         }
     }
 
