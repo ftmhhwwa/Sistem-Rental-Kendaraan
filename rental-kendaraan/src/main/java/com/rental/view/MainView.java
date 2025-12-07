@@ -15,6 +15,7 @@ public class MainView extends JFrame {
     private DashboardView dashboardView;
     private FormRentalView rentalView;
     private PengembalianView pengembalianView;
+    private static final String DASHBOARD = "dashboard";
 
         private JButton styledButton(String text, Color color) {
         JButton btn = new JButton(text);
@@ -46,7 +47,7 @@ public class MainView extends JFrame {
         rentalView = new FormRentalView();
         pengembalianView = new PengembalianView();
 
-        mainPanel.add(dashboardView, "dashboard");
+        mainPanel.add(dashboardView, DASHBOARD);
         mainPanel.add(rentalView, "rental");
         mainPanel.add(pengembalianView, "pengembalian");
 
@@ -62,7 +63,7 @@ public class MainView extends JFrame {
 
         add(mainPanel, BorderLayout.CENTER);
 
-        cardLayout.show(mainPanel, "dashboard");
+        cardLayout.show(mainPanel, DASHBOARD);
     }
 
     private JPanel createHeader() {
@@ -97,7 +98,7 @@ public class MainView extends JFrame {
         sidebar.setPreferredSize(new Dimension(200, 0));
         sidebar.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
 
-        sidebar.add(createSidebarButton("Dashboard", "dashboard"));
+        sidebar.add(createSidebarButton("Dashboard", DASHBOARD));
         sidebar.add(createSidebarButton("Rental Kendaraan", "rental"));
         sidebar.add(createSidebarButton("Pengembalian", "pengembalian"));
 

@@ -52,7 +52,7 @@ public class KendaraanRepository {
 
     public List<Kendaraan> findAll() {
         List<Kendaraan> kendaraanList = new ArrayList<>();
-        String sql = "SELECT * FROM kendaraan ORDER BY no_polisi";
+        String sql = "SELECT no_polisi, jenis, merk, model, tahun, harga_dasar, status FROM kendaraan ORDER BY no_polisi";
 
         try (Connection conn = DatabaseConnection.getConnection();
              Statement stmt = conn.createStatement();
@@ -72,7 +72,7 @@ public class KendaraanRepository {
 
     public List<Kendaraan> findAllTersedia() {
         List<Kendaraan> kendaraanList = new ArrayList<>();
-        String sql = "SELECT * FROM kendaraan WHERE status = 'tersedia' ORDER BY no_polisi";
+        String sql = "SELECT no_polisi, jenis, merk, model, tahun, harga_dasar, status FROM kendaraan WHERE status = 'tersedia' ORDER BY no_polisi";
 
         try (Connection conn = DatabaseConnection.getConnection();
              Statement stmt = conn.createStatement();
@@ -92,7 +92,7 @@ public class KendaraanRepository {
 
     public Kendaraan findByNoPolisi(String noPolisi) {
         Kendaraan kendaraan = null;
-        String sql = "SELECT * FROM kendaraan WHERE no_polisi = ?";
+        String sql = "SELECT no_polisi, jenis, merk, model, tahun, harga_dasar, status FROM kendaraan WHERE no_polisi = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

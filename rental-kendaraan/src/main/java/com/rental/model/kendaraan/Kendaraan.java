@@ -11,7 +11,7 @@ public abstract class Kendaraan
     private String status;
 
     //konstruktor-----------------------------------------------
-    public Kendaraan(String noPolisi, String merk, String model, int tahun, double hargaDasar, String status )
+    protected Kendaraan(String noPolisi, String merk, String model, int tahun, double hargaDasar, String status )
     {
         this.noPolisi = noPolisi;
         this.merk = merk;

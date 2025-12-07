@@ -26,6 +26,7 @@ public class DashboardView extends JPanel {
     private JButton btnEdit;
     private JButton btnHapus;
     private JButton btnBersih;
+    private static final String FONT_ARIAL = "Arial";
 
     public DashboardView() {
 
@@ -90,7 +91,7 @@ public class DashboardView extends JPanel {
         p.setOpaque(false);
 
         JLabel lbl = new JLabel("   Data Kendaraan");
-        lbl.setFont(new Font("Arial", Font.BOLD, 16));
+        lbl.setFont(new Font(FONT_ARIAL, Font.BOLD, 16));
 
         p.add(lbl, BorderLayout.NORTH);
 
@@ -99,7 +100,7 @@ public class DashboardView extends JPanel {
         tableKendaraan = new JTable(modelKendaraan);
         tableKendaraan.getTableHeader().setBackground(new Color(0, 0, 0));
         tableKendaraan.getTableHeader().setForeground(Color.WHITE);
-        tableKendaraan.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
+        tableKendaraan.getTableHeader().setFont(new Font(FONT_ARIAL, Font.BOLD, 12));
         tableKendaraan.setRowHeight(22);
         tableKendaraan.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
@@ -118,7 +119,7 @@ public class DashboardView extends JPanel {
         p.setOpaque(false);
 
         JLabel lbl = new JLabel("   Form CRUD Kendaraan");
-        lbl.setFont(new Font("Arial", Font.BOLD, 16));
+        lbl.setFont(new Font(FONT_ARIAL, Font.BOLD, 16));
         p.add(lbl, BorderLayout.NORTH);
 
         JPanel form = new JPanel(new GridLayout(10, 2, 8, 8));

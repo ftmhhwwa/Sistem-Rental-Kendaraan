@@ -6,8 +6,6 @@ import com.rental.model.kendaraan.Kendaraan;
 import com.rental.model.kendaraan.KendaraanFactory; 
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 
@@ -37,12 +35,9 @@ public class DashboardController {
         view.getBtnBersih().addActionListener(e -> clearForm());
         
         // Listener untuk Tabel (Klik baris -> isi form)
-        view.getTableKendaraan().getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    loadSelectedToForm();
-                }
+        view.getTableKendaraan().getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                loadSelectedToForm();
             }
         });
     }
@@ -166,6 +161,9 @@ public class DashboardController {
 
         int confirm = JOptionPane.showConfirmDialog(view, "Yakin ingin menghapus kendaraan dengan No Polisi " + noPolisi + "?", "Konfirmasi Hapus", JOptionPane.YES_NO_OPTION);
 
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
             if (kendaraanRepo.delete(noPolisi)) { 
                 JOptionPane.showMessageDialog(view, "Kendaraan berhasil dihapus.", TITLE_SUKSES, JOptionPane.INFORMATION_MESSAGE);
                 loadData();

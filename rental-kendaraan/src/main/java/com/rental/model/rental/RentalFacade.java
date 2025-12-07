@@ -1,6 +1,7 @@
 package com.rental.model.rental;
 
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 import com.rental.model.kendaraan.Kendaraan;
 import com.rental.repository.*;
@@ -9,6 +10,8 @@ public class RentalFacade
 {    
     private KendaraanRepository kendaraanRepo;
     private RentalRepository rentalRepo;
+    private static final Logger logger = Logger.getLogger(RentalFacade.class.getName());
+    private static final String STATUS_TERSEDIA = "tersedia";
 
     public RentalFacade() 
     {
@@ -21,8 +24,8 @@ public class RentalFacade
         Kendaraan kendaraan = rental.getKendaraan();
 
         // Cek ketersediaan
-        if (!kendaraan.getStatus().equalsIgnoreCase("tersedia")) {
-            System.out.println("Kendaraan tidak tersedia untuk disewa");
+        if (!kendaraan.getStatus().equalsIgnoreCase(STATUS_TERSEDIA)) {
+            logger.info("Kendaraan tidak tersedia untuk disewa");
             return false;
         }
         try{
@@ -30,10 +33,10 @@ public class RentalFacade
             kendaraan.setStatus("tidak tersedia");
             kendaraanRepo.updateStatus(kendaraan.getNoPolisi(), "tidak tersedia");
             rentalRepo.insert(rental);
-            System.out.println("Sewa kendaraan berhasil diproses");
+            logger.info("Sewa kendaraan berhasil diproses");
             return true;
         }catch (Exception e) {
-            System.err.println("Gagal menyimpan rental: " + e.getMessage());
+            logger.severe("Gagal menyimpan rental: " + e.getMessage());
             return false;
         }
     }
@@ -43,13 +46,13 @@ public class RentalFacade
     {
         Kendaraan kendaraan = rental.getKendaraan();
         try {
-            kendaraan.setStatus("tersedia");
-            kendaraanRepo.updateStatus(kendaraan.getNoPolisi(), "tersedia");
+            kendaraan.setStatus(STATUS_TERSEDIA);
+            kendaraanRepo.updateStatus(kendaraan.getNoPolisi(), STATUS_TERSEDIA);
             rentalRepo.deleteRental(rental.getId());
-            System.out.println("Pengembalian berhasil diproses");
+            logger.info("Pengembalian berhasil diproses");
             return true;
         }catch (SQLException e) {
-            System.err.println("Gagal menyelesaikan pengembalian: " + e.getMessage());
+            logger.severe("Gagal menyelesaikan pengembalian: " + e.getMessage());
             return false;
         }
     }

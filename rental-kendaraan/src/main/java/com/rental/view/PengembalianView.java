@@ -7,8 +7,6 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,13 +88,7 @@ public class PengembalianView extends JPanel {
             button.setBackground(new Color(46, 204, 113));
             button.setForeground(Color.WHITE);
 
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // Method ini hanya memicu event stopCellEditing
-                    fireEditingStopped();
-                }
-            });
+            button.addActionListener(e -> fireEditingStopped());
         }
 
         @Override

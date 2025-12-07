@@ -28,7 +28,7 @@ public class RentalController {
     private DashboardController dashboardController;
     private PengembalianController pengembalianController;
 
-    private final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd-MM-yyyy");    
+    private final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");    
     private Map<String, Kendaraan> availableKendaraanMap = new HashMap<>();
     private static final String TITLE_ERROR = "Error";
     private static final String INPUT_ERROR = "Input Error";
@@ -135,8 +135,8 @@ public class RentalController {
         }
 
         try {
-            LocalDate tglMulai = LocalDate.parse(tglMulaiStr, DATE_FORMAT);
-            LocalDate tglSelesai = LocalDate.parse(tglSelesaiStr, DATE_FORMAT);
+            LocalDate tglMulai = LocalDate.parse(tglMulaiStr, dateFormat);
+            LocalDate tglSelesai = LocalDate.parse(tglSelesaiStr, dateFormat);
             
             if (tglSelesai.isBefore(tglMulai)) {
                  JOptionPane.showMessageDialog(view, "Tanggal selesai tidak boleh sebelum tanggal mulai.", INPUT_ERROR, JOptionPane.ERROR_MESSAGE);
@@ -151,7 +151,7 @@ public class RentalController {
             }
 
             Kendaraan kendaraan = availableKendaraanMap.get(selectedCarLabel);
-            if (kendaraan == null) throw new Exception("Kendaraan tidak valid/tersedia.");
+            if (kendaraan == null) throw new java.util.NoSuchElementException("Kendaraan tidak valid/tersedia.");
             
             Rental dummyRental = new Rental(0, kendaraan, tglMulai, tglSelesai, null, 0.0, strategyName);
             HargaStrategy strategy = getStrategy(strategyName);
@@ -188,8 +188,8 @@ public class RentalController {
         try 
         {
             double hargaTotal = Double.parseDouble(view.getLblHargaTotal().getText()); 
-            LocalDate tglMulai = LocalDate.parse(tglMulaiStr, DATE_FORMAT);
-            LocalDate tglSelesai = LocalDate.parse(tglSelesaiStr, DATE_FORMAT);
+            LocalDate tglMulai = LocalDate.parse(tglMulaiStr, dateFormat);
+            LocalDate tglSelesai = LocalDate.parse(tglSelesaiStr, dateFormat);
 
             // Dapatkan atau Simpan Pelanggan
             Pelanggan pelanggan = pelangganRepo.findByNik(nik);
@@ -202,7 +202,7 @@ public class RentalController {
             
             // Dapatkan Kendaraan
             Kendaraan kendaraan = availableKendaraanMap.get(selectedCarLabel);
-            if (kendaraan == null) throw new Exception("Kendaraan tidak ditemukan atau sudah tidak tersedia.");
+            if (kendaraan == null) throw new java.util.NoSuchElementException("Kendaraan tidak ditemukan atau sudah tidak tersedia.");
             
             // Buat objek Rental
             Rental newRental = new Rental(0, kendaraan, tglMulai, tglSelesai, pelanggan, hargaTotal, strategyName);

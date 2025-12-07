@@ -5,11 +5,10 @@ import java.sql.SQLException;
 
 public class DatabaseConnection 
 {
-    private static final String DB_HOST = "localhost"; 
-    private static final String DB_PORT = "5432";
-    private static final String DB_NAME = "postgres";
+    private DatabaseConnection() { }
+
     private static final String DB_USER = "postgres";
-    private static final String DB_PASSWORD = "momoezzakuh";
+    private static final String DB_PASSWORD = System.getenv().getOrDefault("DB_PASSWORD", "admin");
     private static final String DB_URL = "jdbc:postgresql://localhost:5432/postgres";
 
     public static Connection getConnection() throws SQLException 
