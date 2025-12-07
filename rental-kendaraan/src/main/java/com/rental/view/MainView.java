@@ -16,6 +16,15 @@ public class MainView extends JFrame {
     private FormRentalView rentalView;
     private PengembalianView pengembalianView;
 
+        private JButton styledButton(String text, Color color) {
+        JButton btn = new JButton(text);
+        btn.setBackground(color);
+        btn.setForeground(Color.WHITE);
+        btn.setFocusPainted(false);
+        btn.setBorder(BorderFactory.createEmptyBorder(5, 12, 5, 12));
+        return btn;
+    }
+
     public MainView() {
         setTitle("Sistem Rental Kendaraan");
         setSize(1200, 700);
@@ -67,8 +76,8 @@ public class MainView extends JFrame {
         JPanel rightButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         rightButtons.setOpaque(false);
 
-        JButton aboutBtn = new JButton("About");
-        JButton exitBtn = new JButton("Exit");
+        JButton aboutBtn = styledButton("About", new Color(44, 62, 80));
+        JButton exitBtn = styledButton("Exit", new Color(44, 62, 80));
 
         aboutBtn.addActionListener(e -> showAbout());
         exitBtn.addActionListener(e -> System.exit(0));

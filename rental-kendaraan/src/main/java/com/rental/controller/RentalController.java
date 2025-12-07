@@ -30,6 +30,10 @@ public class RentalController {
 
     private final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd-MM-yyyy");    
     private Map<String, Kendaraan> availableKendaraanMap = new HashMap<>();
+    private static final String TITLE_ERROR = "Error";
+    private static final String INPUT_ERROR = "Input Error";
+    private static final String PILIH_KENDARAAN = "— pilih kendaraan —";
+    
 
     public RentalController(FormRentalView view) {
         this.view = view;
@@ -58,7 +62,7 @@ public class RentalController {
             availableKendaraanMap.clear();
             
             view.getCmbKendaraan().removeAllItems();
-            view.getCmbKendaraan().addItem("— pilih kendaraan —");
+            view.getCmbKendaraan().addItem(PILIH_KENDARAAN);
 
             for (Kendaraan k : list) {
                 // Format label: No Polisi | Jenis | Merk Model (Tahun)
@@ -73,7 +77,7 @@ public class RentalController {
                 availableKendaraanMap.put(label, k);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(view, "Gagal memuat daftar kendaraan: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(view, "Gagal memuat daftar kendaraan: " + e.getMessage(), TITLE_ERROR, JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
@@ -98,7 +102,7 @@ public class RentalController {
                 setPelangganFieldsEditable(true);
             }
         } catch (SQLException e) {
-             JOptionPane.showMessageDialog(view, "Error saat mencari NIK: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+             JOptionPane.showMessageDialog(view, "Error saat mencari NIK: " + e.getMessage(), TITLE_ERROR, JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -125,7 +129,7 @@ public class RentalController {
         String tglSelesaiStr = view.getTxtTglSelesai().getText();
         String strategyName = (String) view.getCmbStrategy().getSelectedItem();
         
-        if (selectedCarLabel == null || selectedCarLabel.contains("— pilih kendaraan —")) {
+        if (selectedCarLabel == null || selectedCarLabel.contains(PILIH_KENDARAAN)) {
             JOptionPane.showMessageDialog(view, "Pilih kendaraan terlebih dahulu.", "Peringatan", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -135,14 +139,14 @@ public class RentalController {
             LocalDate tglSelesai = LocalDate.parse(tglSelesaiStr, DATE_FORMAT);
             
             if (tglSelesai.isBefore(tglMulai)) {
-                 JOptionPane.showMessageDialog(view, "Tanggal selesai tidak boleh sebelum tanggal mulai.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                 JOptionPane.showMessageDialog(view, "Tanggal selesai tidak boleh sebelum tanggal mulai.", INPUT_ERROR, JOptionPane.ERROR_MESSAGE);
                  return;
             }
             
             long durasiHari = ChronoUnit.DAYS.between(tglMulai, tglSelesai) + 1;
             
             if (durasiHari <= 0) {
-                 JOptionPane.showMessageDialog(view, "Durasi rental minimal 1 hari.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                 JOptionPane.showMessageDialog(view, "Durasi rental minimal 1 hari.", INPUT_ERROR, JOptionPane.ERROR_MESSAGE);
                  return;
             }
 
@@ -157,9 +161,9 @@ public class RentalController {
             JOptionPane.showMessageDialog(view, "Harga berhasil dihitung untuk " + durasiHari + " hari.", "Info", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (DateTimeParseException e) {
-            JOptionPane.showMessageDialog(view, "Format tanggal salah. Gunakan DD-MM-YYYY.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(view, "Format tanggal salah. Gunakan DD-MM-YYYY.", INPUT_ERROR, JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(view, "Gagal menghitung harga: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(view, "Gagal menghitung harga: " + e.getMessage(), TITLE_ERROR, JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
@@ -176,7 +180,7 @@ public class RentalController {
         String strategyName = (String) view.getCmbStrategy().getSelectedItem();
         
         
-        if (nik.isEmpty() || nama.isEmpty() || selectedCarLabel.contains("— pilih kendaraan —") || view.getLblHargaTotal().getText().equals("0.00")) {
+        if (nik.isEmpty() || nama.isEmpty() || selectedCarLabel.contains(PILIH_KENDARAAN) || view.getLblHargaTotal().getText().equals("0.00")) {
             JOptionPane.showMessageDialog(view, "Semua field harus diisi dan harga harus dihitung.", "Peringatan", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -219,13 +223,13 @@ public class RentalController {
                 clearForm();
                 loadAvailableKendaraan(); // Refresh daftar kendaraan
             } else {
-                 JOptionPane.showMessageDialog(view, "Gagal memproses rental (Error database/status).", "Error", JOptionPane.ERROR_MESSAGE);
+                 JOptionPane.showMessageDialog(view, "Gagal memproses rental (Error database/status).", TITLE_ERROR, JOptionPane.ERROR_MESSAGE);
             }
 
         } catch (DateTimeParseException e) {
-            JOptionPane.showMessageDialog(view, "Format tanggal salah. Gunakan DD-MM-YYYY.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(view, "Format tanggal salah. Gunakan DD-MM-YYYY.", INPUT_ERROR, JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(view, "Error saat proses rental: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(view, "Error saat proses rental: " + e.getMessage(), TITLE_ERROR, JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }

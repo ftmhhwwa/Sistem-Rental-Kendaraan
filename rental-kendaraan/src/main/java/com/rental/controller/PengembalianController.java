@@ -21,6 +21,7 @@ public class PengembalianController
     private final RentalFacade rentalFacade;
     private DashboardController dashboardController; 
     private Map<Integer, Rental> activeRentalMap = new HashMap<>();
+    private static final String TITLE_ERROR = "Error";
 
     public PengembalianController( PengembalianView view) 
     {
@@ -73,7 +74,7 @@ public class PengembalianController
                 });
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(view, "Gagal memuat data rental: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(view, "Gagal memuat data rental: " + e.getMessage(), TITLE_ERROR, JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -83,7 +84,7 @@ public class PengembalianController
         Rental rental = activeRentalMap.get(rentalId);
 
         if (rental == null) {
-            JOptionPane.showMessageDialog(view, "Data rental tidak ditemukan.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(view, "Data rental tidak ditemukan.", TITLE_ERROR, JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -107,10 +108,10 @@ public class PengembalianController
                         dashboardController.loadData();
                     }
                 } else {
-                    JOptionPane.showMessageDialog(view, "Gagal memproses pengembalian (Kesalahan internal).", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(view, "Gagal memproses pengembalian (Kesalahan internal).", TITLE_ERROR, JOptionPane.ERROR_MESSAGE);
                 }
             } catch (Exception e) {
-                 JOptionPane.showMessageDialog(view, "Gagal memproses pengembalian: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+                 JOptionPane.showMessageDialog(view, "Gagal memproses pengembalian: " + e.getMessage(), TITLE_ERROR, JOptionPane.ERROR_MESSAGE);
                  e.printStackTrace();
             }
         }

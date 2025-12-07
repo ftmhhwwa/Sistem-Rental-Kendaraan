@@ -2,7 +2,6 @@ package com.rental.view;
 
 import com.rental.model.rental.Rental;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -17,7 +16,7 @@ public class PengembalianView extends JPanel {
 
     private JTable tableRental;
     private DefaultTableModel modelRental;
-    private List<Rental> currentRentals = new ArrayList<>();
+    private transient List<Rental> currentRentals = new ArrayList<>();
     public JTable getTableRental() { return tableRental; }
     public DefaultTableModel getModelRental() { return modelRental; }
     public List<Rental> getCurrentRentals() { return currentRentals; }
@@ -118,6 +117,7 @@ public class PengembalianView extends JPanel {
         @Override
         public Object getCellEditorValue() {
             if (isPushed) {
+                //no-op
             }
             isPushed = false;
             return label; 

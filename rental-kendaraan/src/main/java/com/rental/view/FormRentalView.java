@@ -17,6 +17,15 @@ public class FormRentalView extends JPanel
     private JButton btnHitungHarga;
     private JButton btnRental;
 
+        private JButton styledButton(String text, Color color) {
+        JButton btn = new JButton(text);
+        btn.setBackground(color);
+        btn.setForeground(Color.WHITE);
+        btn.setFocusPainted(false);
+        btn.setBorder(BorderFactory.createEmptyBorder(5, 12, 5, 12));
+        return btn;
+    }
+
     public FormRentalView() {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -39,8 +48,8 @@ public class FormRentalView extends JPanel
         cmbStrategy = new JComboBox<>(strategyOptions);
         lblHargaTotal = new JLabel("0.00"); // Menggunakan JLabel sebagai display harga
         
-        btnHitungHarga = new JButton("Hitung Harga");
-        btnRental = new JButton("Proses Rental"); // Ubah nama tombol agar lebih jelas
+        btnHitungHarga = styledButton("Hitung Harga", new Color(52, 168, 83));
+        btnRental = styledButton("Proses Rental", new Color(66, 133, 244)); // Ubah nama tombol agar lebih jelas
 
         form.add(new JLabel("NIK Customer"));
         form.add(txtNik);
