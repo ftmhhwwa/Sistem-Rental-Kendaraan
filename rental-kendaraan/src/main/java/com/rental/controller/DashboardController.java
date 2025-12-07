@@ -54,11 +54,11 @@ public class DashboardController {
             view.getTotalDisewa().setText("<html>Sedang Dirental<br><h1>" + disewa + HTML_CLOSE);
 
             DefaultTableModel model = view.getModelKendaraan();
-            model.setRowCount(0); 
+            model.setRowCount(0);
 
             for (Kendaraan k : list) {
                 model.addRow(new Object[]{
-                    k.getNoPolisi(), 
+                    k.getNoPolisi(),
                     k.getClass().getSimpleName(),
                     k.getMerk(),
                     k.getModel(),
@@ -67,11 +67,12 @@ public class DashboardController {
                     k.getStatus()
                 });
             }
-            clearForm(); 
+            clearForm();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(view, "Gagal memuat data: " + e.getMessage(), TITLE_ERROR, JOptionPane.ERROR_MESSAGE);
         }
     }
+    
     
     private void loadSelectedToForm() {
         int selectedRow = view.getTableKendaraan().getSelectedRow();
@@ -150,7 +151,7 @@ public class DashboardController {
         String status = view.getTxtStatus().getText();
 
         if (noPolisi.isEmpty() || view.getTxtNoPolisi().isEditable()) {
-             JOptionPane.showMessageDialog(view, "Pilih kendaraan dari tabel untuk dihapus.", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(view, "Pilih kendaraan dari tabel untuk dihapus.", "Peringatan", JOptionPane.WARNING_MESSAGE);
             return;
         }
         

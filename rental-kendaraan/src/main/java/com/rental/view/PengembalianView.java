@@ -109,7 +109,7 @@ public class PengembalianView extends JPanel {
         @Override
         public Object getCellEditorValue() {
             if (isPushed) {
-                //no-op
+                // no-op: tindakan untuk menekan tombol ditangani di ActionListener tombol yang memanggil fireEditingStopped().
             }
             isPushed = false;
             return label; 
